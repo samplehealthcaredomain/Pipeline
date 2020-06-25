@@ -32,7 +32,7 @@ pipeline {
       stage('Code Analysis'){
           steps{
 		  script{
-          tool name: 'sonarqubescanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+          sh '${m2_home}/var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/m2_home/bin/mvn clean sonar:sonar'
           }
           
           }
@@ -40,11 +40,10 @@ pipeline {
       stage('Deploy to Nexus'){
           steps{
               script{
-                  nexusPublisher nexusInstanceId: 'nexus', nexusRepositoryId: 'Maven1Repository', packages: []
+              sh '${m2_home}/var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/m2_home/bin/mvn clean deploy'
               }
           }
       }
           
    }
 }
-
